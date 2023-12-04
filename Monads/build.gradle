@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+}
+
+group 'com.monads'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    source {
+        java {
+            srcDir "src"
+        }
+    }
+    test {
+        java {
+            srcDir "test"
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+tasks.named("test") {
+    useJUnitPlatform()
+
+    testLogging {
+        events "skipped", "passed", "failed"
+    }
+
+    afterTest { desc, result ->
+        println "${desc.className} ${desc.name} ${result.resultType}"
+    }
+
+    outputs.upToDateWhen {false}
+}
